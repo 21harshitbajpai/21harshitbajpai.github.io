@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Harshit Bajpai</title>
+<meta name="description" content="Harshit Bajpai, Ph.D. researcher in inverse problems and regularization theory, Department of Mathematics, IIT Roorkee.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+/* Layout: one reading column (max 68rem) with a sticky section nav; hero pairs the intro with a live reconstruction figure. */
+:root{
+--bg:#f6f7f9; --surface:#ffffff; --fg:#151b27; --muted:#5b6474; --rule:#dde1e8;
+--accent:#1d5a86; --accent-soft:#e3edf5; --ok:#2f6b46; --ok-soft:#e2efe6; --warn:#8a5a12; --warn-soft:#f6ecd9; --plan:#5d4f86; --plan-soft:#ebe8f4;
+--img-lo:#0e1a28; --img-hi:#cfe3f3;
+--display:"Literata", Georgia, "Times New Roman", serif;
+--body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+--mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+--bg:#0f131a; --surface:#161c26; --fg:#e5e9f0; --muted:#97a1b2; --rule:#273042;
+--accent:#86bbe2; --accent-soft:#1b2a3a; --ok:#8fcfa6; --ok-soft:#1a2d22; --warn:#e3b56a; --warn-soft:#2f2615; --plan:#b9acea; --plan-soft:#25213a;
+--img-lo:#05090f; --img-hi:#a9d0ee; color-scheme:dark;}}
+:root[data-theme="dark"]{
+--bg:#0f131a; --surface:#161c26; --fg:#e5e9f0; --muted:#97a1b2; --rule:#273042;
+--accent:#86bbe2; --accent-soft:#1b2a3a; --ok:#8fcfa6; --ok-soft:#1a2d22; --warn:#e3b56a; --warn-soft:#2f2615; --plan:#b9acea; --plan-soft:#25213a;
+--img-lo:#05090f; --img-hi:#a9d0ee; color-scheme:dark;}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:4.5rem}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.wrap{max-width:68rem;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.nav .wrap{display:flex;align-items:center;gap:1.5rem;padding-block:.7rem}
+.brand{font-family:var(--display);font-weight:600;font-size:1.05rem;color:var(--fg);text-decoration:none;white-space:nowrap}
+.nav ul{display:flex;gap:1.1rem;list-style:none;margin:0;padding:0;overflow-x:auto;scrollbar-width:none;min-width:0}
+.nav ul::-webkit-scrollbar{display:none}
+.nav ul a{color:var(--muted);text-decoration:none;font-size:.9rem;white-space:nowrap}
+.nav ul a:hover{color:var(--fg)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:3rem;align-items:center;padding-block:3.5rem 3rem}
+.hero > *{min-width:0}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 .9rem}
+h1{font-family:var(--display);font-weight:500;font-size:clamp(2.4rem,5vw,3.6rem);line-height:1.05;letter-spacing:-.01em;margin:0 0 1rem;text-wrap:balance}
+.lede{font-size:1.12rem;color:var(--fg);max-width:36rem;margin:0 0 1.4rem}
+.lede em{font-family:var(--display);font-style:italic}
+.links{display:flex;flex-wrap:wrap;gap:.55rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.45rem .85rem;border:1px solid var(--rule);border-radius:6px;background:var(--surface);color:var(--fg);text-decoration:none;font-size:.88rem;font-weight:500}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.btn.primary:hover{color:var(--bg);filter:brightness(1.08)}
+
+.figure{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:1rem}
+.fig-row{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:stretch}
+#phantom{width:168px;height:168px;image-rendering:pixelated;border-radius:4px;display:block;max-width:100%}
+#curve{width:100%;height:168px;display:block}
+.fig-meta{display:flex;justify-content:space-between;gap:1rem;font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-top:.7rem;font-variant-numeric:tabular-nums}
+.fig-meta b{color:var(--fg);font-weight:500}
+.figure figcaption{font-size:.82rem;color:var(--muted);margin-top:.6rem;line-height:1.5}
+.replay{background:none;border:0;padding:0;font:inherit;color:var(--accent);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* facts band */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.fact{padding:1.1rem 1rem 1.1rem 0;min-width:0}
+.fact + .fact{padding-left:1rem;border-left:1px solid var(--rule)}
+.fact .n{font-family:var(--display);font-size:1.9rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.fact .l{font-size:.85rem;color:var(--muted)}
+
+/* sections */
+section{padding-block:3.2rem 1rem}
+.sec-head{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.6rem;flex-wrap:wrap}
+h2{font-family:var(--display);font-weight:500;font-size:1.9rem;margin:0;text-wrap:balance}
+.sec-head p{margin:0;color:var(--muted);font-size:.95rem}
+h3{font-family:var(--display);font-weight:600;font-size:1.12rem;margin:0 0 .25rem;line-height:1.35;text-wrap:balance}
+.prose{max-width:42rem}
+.prose p{margin:0 0 1rem}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.cols > *{min-width:0}
+.label{font-family:var(--mono);font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin:0 0 .9rem}
+
+/* news */
+.news{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.news li{display:grid;grid-template-columns:7.5rem 1fr;gap:1rem;padding:.7rem 0;border-top:1px solid var(--rule)}
+.news li:last-child{border-bottom:1px solid var(--rule)}
+.news time{font-family:var(--mono);font-size:.82rem;color:var(--muted);padding-top:.12rem;font-variant-numeric:tabular-nums}
+.news span{min-width:0}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0}
+.tl li{display:grid;grid-template-columns:8.5rem 1fr;gap:1rem;padding:.9rem 0;border-top:1px solid var(--rule)}
+.tl li > div{min-width:0}
+.tl .when{font-family:var(--mono);font-size:.8rem;color:var(--muted);padding-top:.2rem;font-variant-numeric:tabular-nums}
+.tl .where{color:var(--muted);font-size:.92rem}
+.tl .note{font-size:.92rem;margin-top:.3rem}
+
+/* interests */
+.tags{display:flex;flex-wrap:wrap;gap:.45rem;margin:0;padding:0;list-style:none}
+.tags li{padding:.3rem .7rem;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:.86rem;font-weight:500}
+.thesis{border-left:2px solid var(--accent);padding:.2rem 0 .2rem 1.1rem;margin:1.6rem 0}
+.thesis .label{margin-bottom:.4rem}
+.thesis p{font-family:var(--display);font-size:1.15rem;margin:0;line-height:1.45}
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:1.8rem}
+.themes > div{min-width:0}
+.themes p{font-size:.93rem;color:var(--muted);margin:0}
+
+/* publications */
+.filters{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.2rem}
+.filters button{font:inherit;font-size:.85rem;padding:.35rem .8rem;border-radius:999px;border:1px solid var(--rule);background:var(--surface);color:var(--muted);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.filters button span{font-family:var(--mono);font-size:.78rem;opacity:.75;margin-left:.3rem}
+.pubs{list-style:none;margin:0;padding:0;counter-reset:pub}
+.pub{display:grid;grid-template-columns:2.4rem 1fr;gap:.8rem;padding:1.05rem 0;border-top:1px solid var(--rule)}
+.pub > div{min-width:0}
+.pub .num{font-family:var(--mono);font-size:.82rem;color:var(--muted);padding-top:.15rem;font-variant-numeric:tabular-nums}
+.pub .authors{font-size:.92rem;color:var(--muted);margin:.1rem 0}
+.pub .authors b{color:var(--fg);font-weight:600}
+.pub .venue{font-size:.92rem}
+.pub .venue i{font-style:italic}
+.pub .row{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .8rem;margin-top:.4rem;font-size:.85rem}
+.chip{font-family:var(--mono);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;padding:.15rem .5rem;border-radius:4px}
+.chip.pub-ok{background:var(--ok-soft);color:var(--ok)}
+.chip.pub-rev{background:var(--warn-soft);color:var(--warn)}
+.chip.pub-prep{background:var(--plan-soft);color:var(--plan)}
+
+/* talks */
+.talk{display:grid;grid-template-columns:8.5rem 1fr;gap:1rem;padding:1rem 0;border-top:1px solid var(--rule)}
+.talk > div{min-width:0}
+.talk .when{font-family:var(--mono);font-size:.8rem;color:var(--muted);padding-top:.2rem}
+.talk .where{color:var(--muted);font-size:.92rem}
+details{margin-top:.45rem}
+summary{cursor:pointer;color:var(--accent);font-size:.88rem}
+details p{font-size:.92rem;color:var(--muted);margin:.5rem 0 0;max-width:42rem}
+
+/* teaching / honors */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:1rem 1.1rem;min-width:0}
+.card .code{font-family:var(--mono);font-size:.78rem;color:var(--accent)}
+.card .meta{font-size:.86rem;color:var(--muted);margin-top:.3rem}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:grid;grid-template-columns:1fr auto;gap:1rem;padding:.65rem 0;border-top:1px solid var(--rule)}
+.list li > span:first-child{min-width:0}
+.list .yr{font-family:var(--mono);font-size:.8rem;color:var(--muted);white-space:nowrap;padding-top:.15rem;font-variant-numeric:tabular-nums}
+.list .rank{font-family:var(--mono);font-weight:500;color:var(--accent)}
+
+/* contact */
+.contact{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
+.cline{display:flex;align-items:center;justify-content:space-between;gap:.8rem;background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:.8rem 1rem;min-width:0}
+.cline > div{min-width:0}
+.cline .k{font-size:.8rem;color:var(--muted)}
+.cline .v{font-family:var(--mono);font-size:.92rem;overflow-wrap:anywhere;user-select:all}
+.copy{font:inherit;font-size:.8rem;border:1px solid var(--rule);background:transparent;color:var(--muted);border-radius:5px;padding:.25rem .6rem;cursor:pointer;flex-shrink:0}
+.copy:hover{color:var(--fg);border-color:var(--fg)}
+.refs{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem}
+.refs > div{min-width:0}
+.refs p{margin:0;font-size:.9rem;color:var(--muted)}
+
+footer{padding-block:3rem 2.5rem;color:var(--muted);font-size:.85rem}
+footer .wrap{border-top:1px solid var(--rule);padding-top:1.2rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+@media (max-width:860px){
+.hero{grid-template-columns:1fr;gap:2rem;padding-block:2.2rem 2rem}
+.cols,.themes{grid-template-columns:1fr;gap:1.6rem}
+.cards,.refs{grid-template-columns:1fr 1fr}
+.facts{grid-template-columns:1fr 1fr}
+.fact:nth-child(3){padding-left:0;border-left:0}
+.fact:nth-child(n+3){border-top:1px solid var(--rule)}
+.contact{grid-template-columns:1fr}
+}
+@media (max-width:520px){
+.cards,.refs{grid-template-columns:1fr}
+.tl li,.talk,.news li{grid-template-columns:1fr;gap:.2rem}
+.fig-row{grid-template-columns:1fr}
+#phantom{width:100%;height:auto;aspect-ratio:1}
+.brand{display:none}
+}
+</style>
+</head>
+<body>
+
+
+<nav class="nav" aria-label="Sections">
+<div class="wrap">
+<a class="brand" href="#top">Harshit Bajpai</a>
+<ul>
+<li><a href="#about">About</a></li>
+<li><a href="#research">Research</a></li>
+<li><a href="#publications">Publications</a></li>
+<li><a href="#talks">Talks</a></li>
+<li><a href="#teaching">Teaching</a></li>
+<li><a href="#honors">Honors</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</div>
+</nav>
+
+<main id="top">
+<div class="wrap">
+<header class="hero">
+<div>
+<p class="eyebrow">Department of Mathematics · IIT Roorkee</p>
+<h1>Harshit Bajpai</h1>
+<p class="lede">I work on <em>inverse problems</em>: recovering a hidden cause from noisy, indirect measurements. My Ph.D. develops stochastic and learning-based iterative regularization methods, with convergence guarantees and stopping rules, for ill-posed problems in medical imaging.</p>
+<div class="links">
+<a class="btn primary" href="https://drive.google.com/file/d/1kZKUwVBAnK2UaG1l5F7kTOFpCf0nhBGP/view?usp=drive_link">Download CV</a>
+<a class="btn" href="https://scholar.google.co.in/citations?user=OvuVWtsAAAAJ&amp;hl=en">Google Scholar</a>
+<a class="btn" href="https://www.researchgate.net/profile/Harshit-Bajpai-9">ResearchGate</a>
+<a class="btn" href="http://www.linkedin.com/in/harshit-bajpai-926326243">LinkedIn</a>
+</div>
+</div>
+<figure class="figure" aria-label="Iterative reconstruction with early stopping">
+<div class="fig-row">
+<canvas id="phantom" width="96" height="96" role="img" aria-label="Shepp–Logan phantom being reconstructed"></canvas>
+<canvas id="curve" role="img" aria-label="Reconstruction error against iteration number, with a minimum at the stopping index"></canvas>
+</div>
+<div class="fig-meta"><span>iteration <b id="kval">k = 0</b></span><span id="kstop">stopping index k* = –</span></div>
+<figcaption>Semiconvergence on the Shepp–Logan phantom: error falls, then noise amplification takes over. A stopping rule halts the iteration at <i>k*</i>. <button class="replay" id="replay" type="button">Replay</button></figcaption>
+</figure>
+</header>
+
+<div class="facts">
+<div class="fact"><div class="n">6</div><div class="l">peer-reviewed journal articles</div></div>
+<div class="fact"><div class="n">5</div><div class="l">papers under review</div></div>
+<div class="fact"><div class="n">8</div><div class="l">invited and contributed talks</div></div>
+<div class="fact"><div class="n">50</div><div class="l">All India Rank, GATE Mathematics 2022</div></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+<div class="sec-head"><h2>About</h2></div>
+<div class="cols">
+<div class="prose">
+<p>I am a Ph.D. researcher in the Department of Mathematics at IIT Roorkee, supervised by <a href="https://www.iitr.ac.in/ankikgiri/">Prof. Ankik Kumar Giri</a>. My thesis is on stochastic and learning-based iterative regularization methods for ill-posed problems, with applications to medical imaging.</p>
+<p>My work draws on functional analysis, stochastic optimization and numerical analysis. I study when iterative methods such as Landweber iteration, stochastic gradient descent, mirror descent and iterated Tikhonov converge, how fast, and when to stop them under noise, including heuristic rules that need no knowledge of the noise level.</p>
+<p>Before my Ph.D., I worked as a Research Scientist at Arithmic Labs, Bengaluru. I am a member of the Inverse Problems Young Academy (2026–2029). My collaborators are listed under <a href="#research">Research</a>.</p>
+<p>I am happy to talk about research and collaboration. Get in touch through the <a href="#contact">contact details</a> below.</p>
+</div>
+<div>
+<p class="label">Latest</p>
+<ul class="news">
+<li><time>Sep 2026</time><span>Talk at the Annual Inverse Meet, IIT Bombay, on graph Laplacian assisted iterative regularization.</span></li>
+<li><time>Aug 2026</time><span>Joined the Inverse Problems Young Academy (IPYA), 2026–2029.</span></li>
+<li><time>Jun 2026</time><span>Visiting Scientist at Nasiko Labs, Bengaluru, on agentic AI and LLM routing.</span></li>
+<li><time>May–Jun 2026</time><span>Talk at IPMS 2026, Malta, with ANRF travel support.</span></li>
+<li><time>May 2026</time><span>Talk at ICMS, University of Edinburgh, on a workshop travel grant.</span></li>
+<li><time>2026</time><span>Paper published in <i>SIAM Journal on Imaging Sciences</i> 19(2).</span></li>
+</ul>
+</div>
+</div>
+
+<div class="cols" style="margin-top:2.6rem">
+<div>
+<p class="label">Education</p>
+<ol class="tl">
+<li><span class="when">2023 – 2026</span><div><h3>Ph.D., Mathematics</h3><div class="where">IIT Roorkee · Supervisor: Prof. Ankik Kumar Giri · CGPA 9.474</div><div class="note">Thesis: Stochastic and learning-based iterative regularization methods for ill-posed problems with applications to medical imaging</div></div></li>
+<li><span class="when">2020 – 2022</span><div><h3>M.Sc., Mathematics</h3><div class="where">IIT Roorkee · Supervisor: Prof. Amit Maji · CGPA 8.506</div><div class="note">Thesis: Dilation for pair of contractions</div></div></li>
+<li><span class="when">2017 – 2020</span><div><h3>B.Sc., Mathematics and Physics</h3><div class="where">University of Lucknow · 78.8%</div></div></li>
+</ol>
+</div>
+<div>
+<p class="label">Experience</p>
+<ol class="tl">
+<li><span class="when">Jun 2026</span><div><h3>Visiting Scientist</h3><div class="where">Nasiko Labs, Bengaluru</div><div class="note">Agentic AI systems, multi-agent workflows and LLM routing frameworks.</div></div></li>
+<li><span class="when">Jan – Feb 2026</span><div><h3>Visiting Researcher</h3><div class="where">IIT Gandhinagar, with Prof. Abhinav Jha</div><div class="note">Denoiser-based regularization for image reconstruction.</div></div></li>
+<li><span class="when">Feb – May 2023</span><div><h3>Junior Research Fellow</h3><div class="where">IIT Roorkee</div><div class="note">Iterative regularization for nonlinear ill-posed problems; electrical impedance tomography.</div></div></li>
+<li><span class="when">2022 – 2023</span><div><h3>Research Scientist</h3><div class="where">Arithmic Labs, Bengaluru</div><div class="note">Zero-knowledge proofs and post-quantum cryptography (PLONK, STARK, ECDSA).</div></div></li>
+<li><span class="when">2021</span><div><h3>Mathematics Tutor</h3><div class="where">Filo Tutor Pvt. Ltd.</div></div></li>
+</ol>
+</div>
+</div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+<div class="sec-head"><h2>Research</h2><p>Regularization theory for ill-posed inverse problems</p></div>
+<div class="prose">
+<p>An inverse problem asks for an unknown <i>x</i> from data <i>y<sup>δ</sup></i> = <i>F</i>(<i>x</i>) + noise. When the problem is ill-posed, small errors in the data cause large errors in the solution, so the method has to be regularized. My research designs iterative methods that regularize through early stopping, proves their convergence and rates in Hilbert and Banach spaces, and tests them on tomography and imaging problems.</p>
+</div>
+<div class="thesis">
+<p class="label">Ph.D. thesis</p>
+<p>Stochastic and learning-based iterative regularization methods for ill-posed problems with applications to medical imaging</p>
+</div>
+<ul class="tags" aria-label="Research interests">
+<li>Regularization theory</li><li>Iterative algorithms</li><li>Gradient descent methods</li><li>Numerical functional analysis</li><li>Stochastic optimization</li><li>Graph-based regularization</li><li>Denoiser-driven methods</li><li>Data-driven methods</li><li>Statistical inverse problems</li><li>Stopping rules</li><li>Medical imaging</li>
+</ul>
+<div class="themes">
+<div><h3>Stochastic iterative methods</h3><p>Stochastic gradient descent, Kaczmarz-type and block coordinate methods that use one equation or block per step, scaling to large systems while keeping regularizing behaviour.</p></div>
+<div><h3>Graph and data-driven priors</h3><p>Graph Laplacians built from training data, plug-in denoisers and learned operators that steer the iteration toward realistic images.</p></div>
+<div><h3>When to stop</h3><p>A priori, a posteriori (discrepancy) and heuristic stopping rules, including Hanke–Raus type rules that work without knowing the noise level.</p></div>
+</div>
+<p class="label" style="margin-top:2.4rem">Collaborators</p>
+<ul class="list">
+<li><span><b>Prof. Ankik Kumar Giri</b>, Department of Mathematics, IIT Roorkee, India · Ph.D. supervisor</span><span class="yr">2023–</span></li>
+<li><span><b>Dr. Tim Jahn</b>, Institute of Mathematics, TU Berlin, Germany · Indo–German DST–DAAD bilateral research project</span><span class="yr">2026–27</span></li>
+<li><span><b>Prof. Abhinav Jha</b>, IIT Gandhinagar, India · denoiser-driven image reconstruction</span><span class="yr">2026</span></li>
+<li><span><b>Dr. Neil Kumar Chada</b>, Department of Mathematics, City University of Hong Kong · sequential-data denoising regularization</span><span class="yr">2026</span></li>
+<li><span><b>Dr. Gaurav Mittal</b> · six joint papers on Landweber-type and stochastic methods</span><span class="yr">2024–</span></li>
+<li><span><b>R. Verma</b> · randomized Krylov-projected iterated Tikhonov regularization</span><span class="yr">2026</span></li>
+<li><span><b>S. Soni</b> · data-driven stochastic asymptotic regularization</span><span class="yr">2026</span></li>
+</ul>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+<div class="sec-head"><h2>Publications</h2><p>Full list on <a href="https://scholar.google.co.in/citations?user=OvuVWtsAAAAJ&amp;hl=en">Google Scholar</a></p></div>
+<div class="filters" role="group" aria-label="Filter publications">
+<button type="button" id="f-all" data-f="all" aria-pressed="true">All<span>13</span></button>
+<button type="button" id="f-ok" data-f="ok" aria-pressed="false">Published<span>6</span></button>
+<button type="button" id="f-rev" data-f="rev" aria-pressed="false">Under review<span>5</span></button>
+<button type="button" id="f-prep" data-f="prep" aria-pressed="false">In preparation<span>2</span></button>
+</div>
+<ol class="pubs" id="pubs">
+<li class="pub" data-s="ok"><span class="num">[1]</span><div><h3>On the convergence of iterative regularization method assisted by the graph Laplacian with early stopping</h3><div class="authors"><b>H. Bajpai</b>, G. Mittal, A. K. Giri</div><div class="venue"><i>SIAM Journal on Imaging Sciences</i> 19(2), 643–676, 2026</div><div class="row"><span class="chip pub-ok">Published</span></div></div></li>
+<li class="pub" data-s="ok"><span class="num">[2]</span><div><h3>Hanke–Raus heuristic rule for iteratively regularized stochastic gradient descent</h3><div class="authors"><b>H. Bajpai</b>, G. Mittal, A. K. Giri</div><div class="venue"><i>Applied Numerical Mathematics</i> 227, 276–298, 2026</div><div class="row"><span class="chip pub-ok">Published</span><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=OvuVWtsAAAAJ&amp;citation_for_view=OvuVWtsAAAAJ%3AIjCSPb-OGe4C">Scholar entry</a></div></div></li>
+<li class="pub" data-s="ok"><span class="num">[3]</span><div><h3>Convergence analysis of Kaczmarz-type iteratively regularized Landweber iteration for solving ill-posed inverse problems</h3><div class="authors">G. Mittal, <b>H. Bajpai</b>, A. K. Giri</div><div class="venue"><i>Journal of Complexity</i> 87, 101980, 2025</div><div class="row"><span class="chip pub-ok">Published</span></div></div></li>
+<li class="pub" data-s="ok"><span class="num">[4]</span><div><h3>Stochastic data-driven Bouligand–Landweber method for solving non-smooth inverse problems</h3><div class="authors"><b>H. Bajpai</b>, G. Mittal, A. K. Giri</div><div class="venue"><i>Journal of Inverse and Ill-posed Problems</i> 33(2), 153–170, 2025</div><div class="row"><span class="chip pub-ok">Published</span><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=OvuVWtsAAAAJ&amp;citation_for_view=OvuVWtsAAAAJ%3AzYLM7Y9cAGgC">Scholar entry</a></div></div></li>
+<li class="pub" data-s="ok"><span class="num">[5]</span><div><h3>Convergence analysis of iteratively regularized Landweber iteration with uniformly convex constraints in Banach spaces</h3><div class="authors">G. Mittal, <b>H. Bajpai</b>, A. K. Giri</div><div class="venue"><i>Journal of Complexity</i> 86, 101897, 2025</div><div class="row"><span class="chip pub-ok">Published</span><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=OvuVWtsAAAAJ&amp;citation_for_view=OvuVWtsAAAAJ%3AUeHWp8X0CEIC">Scholar entry</a></div></div></li>
+<li class="pub" data-s="ok"><span class="num">[6]</span><div><h3>A novel two-point Landweber-type method for regularization of non-smooth inverse problems in Banach spaces</h3><div class="authors">G. Mittal, <b>H. Bajpai</b>, A. K. Giri</div><div class="venue"><i>Computational and Applied Mathematics</i> 43, 426, 2024</div><div class="row"><span class="chip pub-ok">Published</span><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=OvuVWtsAAAAJ&amp;citation_for_view=OvuVWtsAAAAJ%3AqjMakFHDy7sC">Scholar entry</a></div></div></li>
+<li class="pub" data-s="rev"><span class="num">[7]</span><div><h3>On the convergence of adaptive denoiser driven iterative regularization with early stopping</h3><div class="authors"><b>H. Bajpai</b>, A. K. Giri, T. Jahn, A. Jha</div><div class="venue">Preprint, 2026</div><div class="row"><span class="chip pub-rev">Under review</span><a href="https://arxiv.org/abs/2604.20360">arXiv:2604.20360</a></div></div></li>
+<li class="pub" data-s="rev"><span class="num">[8]</span><div><h3>Randomized Krylov-projected iterated Tikhonov regularization for large-scale ill-posed problems under a posteriori stopping rule</h3><div class="authors">R. Verma, <b>H. Bajpai</b>, A. K. Giri</div><div class="venue">Preprint, 2026</div><div class="row"><span class="chip pub-rev">Under review</span><a href="https://arxiv.org/abs/2607.24138">arXiv:2607.24138</a></div></div></li>
+<li class="pub" data-s="rev"><span class="num">[9]</span><div><h3>Graph Laplacian assisted regularization method under noise level free heuristic and statistical stopping rule</h3><div class="authors"><b>H. Bajpai</b>, A. K. Giri</div><div class="venue">Preprint, 2026</div><div class="row"><span class="chip pub-rev">Under review</span><a href="https://arxiv.org/abs/2601.12792">arXiv:2601.12792</a></div></div></li>
+<li class="pub" data-s="rev"><span class="num">[10]</span><div><h3>Damped stochastic mirror descent for non-smooth ill-posed problems in Banach space</h3><div class="authors"><b>H. Bajpai</b>, G. Mittal, A. K. Giri</div><div class="venue">Submitted, 2026</div><div class="row"><span class="chip pub-rev">Under review</span></div></div></li>
+<li class="pub" data-s="rev"><span class="num">[11]</span><div><h3>Data-driven stochastic asymptotic regularization for nonlinear inverse problems with a posteriori and heuristic stopping</h3><div class="authors">S. Soni, <b>H. Bajpai</b>, A. K. Giri</div><div class="venue">Submitted, 2026</div><div class="row"><span class="chip pub-rev">Under review</span></div></div></li>
+<li class="pub" data-s="prep"><span class="num">[12]</span><div><h3>Denoising iterative regularization with sequential data: Gaussian white noise regime</h3><div class="authors"><b>H. Bajpai</b>, N. K. Chada</div><div class="venue">In preparation, 2026</div><div class="row"><span class="chip pub-prep">In preparation</span></div></div></li>
+<li class="pub" data-s="prep"><span class="num">[13]</span><div><h3>An accelerated graph-driven stochastic block coordinate descent method with early stopping for linear ill-posed problems in Hilbert space</h3><div class="authors"><b>H. Bajpai</b>, T. Jahn</div><div class="venue">In preparation, 2026</div><div class="row"><span class="chip pub-prep">In preparation</span></div></div></li>
+</ol>
+</section>
+
+<!-- TALKS -->
+<section id="talks">
+<div class="sec-head"><h2>Talks and workshops</h2></div>
+<p class="label">Talks</p>
+<div>
+<div class="talk"><span class="when">18 Sep 2026</span><div><h3>Graph Laplacian assisted iterative regularization: theory and applications</h3><div class="where">Annual Inverse Meet, IIT Bombay</div></div></div>
+<div class="talk"><span class="when">31 May – 5 Jun 2026</span><div><h3>Data-assisted iterative regularization via graph Laplacian: theory and applications</h3><div class="where">12th International Conference Inverse Problems: Modeling and Simulation (IPMS 2026), Malta · organised by the Eurasian Association on Inverse Problems · ANRF travel support</div></div></div>
+<div class="talk"><span class="when">4 – 7 May 2026</span><div><h3>Graph Laplacian assisted iterative regularization for ill-posed problems with applications to medical imaging</h3><div class="where">Imaging inverse problems and generative models: sparsity and robustness versus expressivity · ICMS, Bayes Centre, University of Edinburgh · travel grant of 800 GBP</div></div></div>
+<div class="talk"><span class="when">28 Dec 2025</span><div><h3>Graph Laplacian assisted regularization method under noise-level-free heuristic and statistical stopping rule</h3><div class="where">91st Annual Conference of the Indian Mathematical Society, University of Lucknow</div></div></div>
+<div class="talk"><span class="when">15 Feb 2025</span><div><h3>On the convergence of iteratively regularized stochastic gradient descent for solving nonlinear inverse problems</h3><div class="where">Annual Inverse Meet, IIT Gandhinagar</div>
+<details><summary>Abstract</summary><p>A variant of stochastic gradient descent, iteratively regularized SGD (IRSGD), for nonlinear ill-posed problems in Hilbert spaces. Without noise, the mean-square iteration error converges to zero. With noisy data, a heuristic parameter choice rule in the spirit of Hanke and Raus selects the stopping index without knowing the noise level; the method then stops after finitely many steps and remains a regularization method. Convergence rates follow under standard source conditions, without assuming polynomially decaying step sizes. Numerical tests cover first-kind integral equations and Schlieren tomography.</p></details></div></div>
+<div class="talk"><span class="when">31 Aug 2024</span><div><h3>Stochastic data-driven Bouligand–Landweber method for non-smooth inverse problems</h3><div class="where">Research Scholars Day, IIT Roorkee</div>
+<details><summary>Abstract</summary><p>A stochastic gradient variant for systems of non-smooth ill-posed equations that uses training data through a bounded linear operator to guide the iteration. Each step picks one equation at random together with a data-driven term. For exact data the mean-square error converges to zero; for noisy data an a priori stopping rule gives a regularization method. Convergence and stability are proved in infinite-dimensional Hilbert spaces and illustrated numerically.</p></details></div></div>
+<div class="talk"><span class="when">8 Aug 2024</span><div><h3>Tikhonov regularization of inverse problems</h3><div class="where">SBM Seminar, IIT Roorkee</div></div></div>
+</div>
+
+<div class="cols" style="margin-top:2.4rem">
+<div>
+<p class="label">Schools and workshops attended</p>
+<ul class="list">
+<li><span>National Workshop cum FDP on Deep Learning in Scientific Computing, LNMIIT Jaipur</span><span class="yr">Mar 2025</span></li>
+<li><span>Mathematics for Health Sciences (CIMPA School), BITS Pilani</span><span class="yr">Dec 2023 – Jan 2024</span></li>
+<li><span>Control Theory for Partial Differential Equations (NCMW-ATM School), IISER Thiruvananthapuram</span><span class="yr">Dec 2023</span></li>
+</ul>
+</div>
+<div>
+<p class="label">Reviewer for</p>
+<ul class="list">
+<li><span><i>SIAM/ASA Journal on Uncertainty Quantification</i></span><span class="yr">2026</span></li>
+<li><span><i>Inverse Problems</i></span><span class="yr">2025, 2026</span></li>
+<li><span><i>Machine Learning: Science and Technology</i></span><span class="yr">2025, 2026</span></li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- TEACHING -->
+<section id="teaching">
+<div class="sec-head"><h2>Teaching</h2><p>Teaching Assistant, IIT Roorkee</p></div>
+<div class="cards">
+<div class="card"><div class="code">MAI-104</div><h3>Mathematical Methods</h3><div class="meta">UG · Autumn 2025</div></div>
+<div class="card"><div class="code">MAI-102</div><h3>Mathematics II: Probability and Statistics</h3><div class="meta">UG · Spring 2025</div></div>
+<div class="card"><div class="code">MAC-405 / MA-409</div><h3>Real Analysis</h3><div class="meta">PG · Autumn 2024</div></div>
+</div>
+</section>
+
+<!-- HONORS -->
+<section id="honors">
+<div class="sec-head"><h2>Honors and service</h2></div>
+<div class="cols">
+<div>
+<p class="label">Awards, grants and fellowships</p>
+<ul class="list">
+<li><span>DST–DAAD Indo–German bilateral research project, IIT Roorkee and TU Berlin (with Dr. Tim Jahn)</span><span class="yr">2026–27</span></li>
+<li><span>Member, Inverse Problems Young Academy (IPYA)</span><span class="yr">2026–29</span></li>
+<li><span>ANRF travel support, IPMS 2026, Malta</span><span class="yr">2026</span></li>
+<li><span>Travel grant (800 GBP and stay), ICMS workshop, Edinburgh</span><span class="yr">2026</span></li>
+<li><span>Travel grant (1000 EUR), CIMPA–Simons workshop, Silpakorn University, Thailand</span><span class="yr">2026</span></li>
+<li><span>GATE Mathematics, All India Rank <span class="rank">50</span></span><span class="yr">2022</span></li>
+<li><span>CSIR-UGC JRF, Mathematical Sciences, All India Rank <span class="rank">69</span></span><span class="yr">2021</span></li>
+<li><span>NBHM written examination, qualified</span><span class="yr">2021</span></li>
+<li><span>IIT JAM Mathematics, All India Rank <span class="rank">122</span></span><span class="yr">2020</span></li>
+<li><span>Merit-cum-Means Scholarship, IIT Roorkee</span><span class="yr">2020–22</span></li>
+</ul>
+</div>
+<div>
+<p class="label">Academic service</p>
+<ul class="list">
+<li><span>Department Placement Representative (Ph.D.), Placement Cell, IIT Roorkee</span><span class="yr">2025–</span></li>
+<li><span>General Secretary, Mathematical Colloquium, IIT Roorkee</span><span class="yr">2024–25</span></li>
+<li><span>Member, Department Academic Program Committee</span><span class="yr">2021–22</span></li>
+<li><span>PG member, National Service Scheme, IIT Roorkee</span><span class="yr">2020–21</span></li>
+</ul>
+<p class="label" style="margin-top:2rem">Pre-Ph.D. coursework</p>
+<ul class="list">
+<li><span>Regularization Theory for Inverse Problems</span><span class="yr">10/10</span></li>
+<li><span>Optimal Control Theory</span><span class="yr">10/10</span></li>
+<li><span>Theory of Differential Equations</span><span class="yr">9/10</span></li>
+<li><span>Nonlinear Programming</span><span class="yr">9/10</span></li>
+<li><span>Selected Topics in Analysis</span><span class="yr">9/10</span></li>
+</ul>
+<p class="label" style="margin-top:2rem">Programming</p>
+<ul class="tags"><li>Python</li><li>C++</li><li>C</li><li>Rust</li></ul>
+</div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<div class="sec-head"><h2>Contact</h2><p>Department of Mathematics, IIT Roorkee, Roorkee 247667, Uttarakhand, India</p></div>
+<div class="contact">
+<div class="cline"><div><div class="k">Institute email</div><div class="v">harshit_b@ma.iitr.ac.in</div></div><button class="copy" type="button" data-copy="harshit_b@ma.iitr.ac.in">Copy</button></div>
+<div class="cline"><div><div class="k">Personal email</div><div class="v">bajpaiharshit87@gmail.com</div></div><button class="copy" type="button" data-copy="bajpaiharshit87@gmail.com">Copy</button></div>
+<div class="cline"><div><div class="k">Mobile</div><div class="v">+91 98070 85738</div></div><button class="copy" type="button" data-copy="+919807085738">Copy</button></div>
+<div class="cline"><div><div class="k">Office</div><div class="v">+91 95804 96328</div></div><button class="copy" type="button" data-copy="+919580496328">Copy</button></div>
+</div>
+<p class="label" style="margin-top:2.2rem">References</p>
+<div class="refs">
+<div><h3>Prof. Ankik Kumar Giri</h3><p>Department of Mathematics, IIT Roorkee<br>ankik.giri@ma.iitr.ac.in</p></div>
+<div><h3>Dr. Tim Jahn</h3><p>Institute of Mathematics, TU Berlin<br>jahn@tu-berlin.de</p></div>
+<div><h3>Dr. Neil Kumar Chada</h3><p>Department of Mathematics, City University of Hong Kong<br>neilchada123@gmail.com</p></div>
+</div>
+</section>
+</div>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Harshit Bajpai</span><span>Last updated November 2026</span></div></footer>
+
+<script>
+(function(){
+// ---------- Shepp–Logan phantom with simulated semiconvergence ----------
+var N = 96;
+var E = [[1,.69,.92,0,0,0],[-.8,.6624,.874,0,-.0184,0],[-.2,.11,.31,.22,0,-18],[-.2,.16,.41,-.22,0,18],
+[.1,.21,.25,0,.35,0],[.1,.046,.046,0,.1,0],[.1,.046,.046,0,-.1,0],[.1,.046,.023,-.08,-.605,0],
+[.1,.023,.023,0,-.606,0],[.1,.023,.046,.06,-.605,0]];
+var P = new Float32Array(N*N);
+for (var j=0;j<N;j++) for (var i=0;i<N;i++){
+var x=(2*i-N+1)/N, y=(N-1-2*j)/N, v=0;
+for (var e=0;e<E.length;e++){
+var t=E[e][5]*Math.PI/180, dx=x-E[e][3], dy=y-E[e][4];
+var xr=dx*Math.cos(t)+dy*Math.sin(t), yr=-dx*Math.sin(t)+dy*Math.cos(t);
+if ((xr*xr)/(E[e][1]*E[e][1])+(yr*yr)/(E[e][2]*E[e][2])<=1) v+=E[e][0];
+}
+P[j*N+i]=v;
+}
+function blur(src,r){
+var a=new Float32Array(src), b=new Float32Array(N*N);
+for (var pass=0;pass<3;pass++){
+for (var j=0;j<N;j++) for (var i=0;i<N;i++){var s=0,c=0;for(var d=-r;d<=r;d++){var ii=i+d;if(ii>=0&&ii<N){s+=a[j*N+ii];c++;}}b[j*N+i]=s/c;}
+for (var j2=0;j2<N;j2++) for (var i2=0;i2<N;i2++){var s2=0,c2=0;for(var d2=-r;d2<=r;d2++){var jj=j2+d2;if(jj>=0&&jj<N){s2+=b[jj*N+i2];c2++;}}a[j2*N+i2]=s2/c2;}
+}
+return a;
+}
+var B = blur(P,6);
+var seed=7; function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647-.5;}
+var Z=new Float32Array(N*N); for (var q=0;q<N*N;q++) Z[q]=rnd();
+Z = blur(Z,1); for (q=0;q<N*N;q++) Z[q]*=2.6;
+var K=48, err=[], kStar=0;
+function frame(k){ // x_k = P + (B-P) e^{-k/7} + noise growing with k
+var a=Math.exp(-k/7), s=.0028*k*k/ (1+.02*k), out=new Float32Array(N*N);
+for (var q=0;q<N*N;q++) out[q]=P[q]+(B[q]-P[q])*a+Z[q]*s;
+return out;
+}
+for (var k=0;k<=K;k++){var f=frame(k),s=0;for(q=0;q<N*N;q++){var d=f[q]-P[q];s+=d*d;}err.push(Math.sqrt(s/(N*N)));}
+for (k=1;k<=K;k++) if (err[k]<err[kStar]) kStar=k;
+
+var pc=document.getElementById('phantom'), px=pc.getContext('2d'), img=px.createImageData(N,N);
+var cc=document.getElementById('curve'), cx=cc.getContext('2d');
+var kval=document.getElementById('kval'); document.getElementById('kstop').textContent='stopping index k* = '+kStar;
+function css(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim();}
+function hex(h){h=h.replace('#','');return [parseInt(h.substr(0,2),16),parseInt(h.substr(2,2),16),parseInt(h.substr(4,2),16)];}
+function drawImg(k){
+var f=frame(k), lo=hex(css('--img-lo')), hi=hex(css('--img-hi'));
+for (var q=0;q<N*N;q++){var t=Math.max(0,Math.min(1,f[q]/.45));t=Math.pow(t,.8);
+img.data[4*q]=lo[0]+(hi[0]-lo[0])*t; img.data[4*q+1]=lo[1]+(hi[1]-lo[1])*t; img.data[4*q+2]=lo[2]+(hi[2]-lo[2])*t; img.data[4*q+3]=255;}
+px.putImageData(img,0,0);
+}
+function drawCurve(k){
+var dpr=window.devicePixelRatio||1, w=cc.clientWidth, h=cc.clientHeight;
+if (!w||!h) return;
+cc.width=w*dpr; cc.height=h*dpr; cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,w,h);
+var L=30,R=8,T=12,Bm=24, max=Math.max.apply(null,err)*1.05, min=0;
+function X(i){return L+(w-L-R)*i/K;} function Y(v){return T+(h-T-Bm)*(1-(v-min)/(max-min));}
+var rule=css('--rule'), muted=css('--muted'), acc=css('--accent'), fg=css('--fg');
+cx.strokeStyle=rule; cx.lineWidth=1; cx.beginPath(); cx.moveTo(L,T); cx.lineTo(L,h-Bm); cx.lineTo(w-R,h-Bm); cx.stroke();
+cx.font='10px "IBM Plex Mono", monospace'; cx.fillStyle=muted;
+cx.textAlign='center'; [0,24,48].forEach(function(t){cx.fillText(t,X(t),h-Bm+14);});
+cx.save(); cx.translate(10,(T+h-Bm)/2); cx.rotate(-Math.PI/2); cx.fillText('error',0,0); cx.restore();
+// full curve faint
+cx.strokeStyle=rule; cx.lineWidth=1.5; cx.beginPath(); for (var i=0;i<=K;i++){i?cx.lineTo(X(i),Y(err[i])):cx.moveTo(X(i),Y(err[i]));} cx.stroke();
+// progress
+cx.strokeStyle=acc; cx.lineWidth=2; cx.beginPath(); for (i=0;i<=k;i++){i?cx.lineTo(X(i),Y(err[i])):cx.moveTo(X(i),Y(err[i]));} cx.stroke();
+// k* marker
+cx.setLineDash([3,3]); cx.strokeStyle=muted; cx.beginPath(); cx.moveTo(X(kStar),T); cx.lineTo(X(kStar),h-Bm); cx.stroke(); cx.setLineDash([]);
+cx.fillStyle=muted; cx.textAlign='left'; cx.fillText('k*',X(kStar)+4,T+8);
+cx.fillStyle=fg; cx.beginPath(); cx.arc(X(k),Y(err[k]),3.5,0,7); cx.fill();
+cx.fillStyle=muted; cx.textAlign='right'; cx.fillText('iteration k',w-R,h-Bm-6);
+}
+var cur=kStar, timer=null;
+function show(k){cur=k; drawImg(k); drawCurve(k); kval.textContent='k = '+k;}
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function play(){
+if (timer) clearInterval(timer);
+if (reduce){show(kStar);return;}
+var k=0; show(0);
+timer=setInterval(function(){k++; show(k); if(k>=kStar){clearInterval(timer);timer=null;}},110);
+}
+show(kStar);
+if (!reduce) setTimeout(play,350);
+document.getElementById('replay').addEventListener('click',play);
+window.addEventListener('resize',function(){drawCurve(cur);});
+if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){show(cur);});
+new MutationObserver(function(){show(cur);}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+// ---------- Publication filter ----------
+var btns=document.querySelectorAll('.filters button'), pubs=document.querySelectorAll('#pubs .pub');
+btns.forEach(function(b){b.addEventListener('click',function(){
+btns.forEach(function(o){o.setAttribute('aria-pressed',o===b?'true':'false');});
+var f=b.getAttribute('data-f'); pubs.forEach(function(p){p.hidden=!(f==='all'||p.getAttribute('data-s')===f);});
+});});
+
+// ---------- Copy buttons ----------
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+var t=b.getAttribute('data-copy');
+function done(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy';},1500);}
+function fallback(){var v=b.parentNode.querySelector('.v');var r=document.createRange();r.selectNodeContents(v);var s=window.getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected';setTimeout(function(){b.textContent='Copy';},1500);}
+try{navigator.clipboard.writeText(t).then(done,fallback);}catch(e){fallback();}
+});});
+})();
+</script>
+
+</body>
+</html>
+TEST
